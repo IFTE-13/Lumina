@@ -1,4 +1,3 @@
-// src/app/integrations/page.tsx
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -23,7 +22,7 @@ import { toast } from 'sonner';
 const integrations = [
   {
     name: "Python SDK",
-    description: "Integrate Lumina into your Python applications",
+    description: "Integrate into your Python applications",
     icon: Code,
     language: "Python",
     install: "pip install lumina-sdk",
@@ -55,7 +54,7 @@ const integrations = [
   },
   {
     name: "SIEM Integration",
-    description: "Send results to Splunk, ELK, or other SIEMs",
+    description: "Send results to different SIEMs",
     icon: Server,
     language: "JSON",
     install: "Webhook ready",
@@ -63,7 +62,7 @@ const integrations = [
   },
   {
     name: "VirusTotal",
-    description: "Cross-reference with VirusTotal database",
+    description: "Cross-reference with VirusTotal db",
     icon: Shield,
     language: "API",
     install: "Coming soon",
@@ -82,9 +81,8 @@ export default function IntegrationsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-muted/20">
-      <div className="container mx-auto max-w-6xl px-4 py-8">
-        {/* Header */}
+    <div className="min-h-screen">
+      <div className="mx-auto max-w-5xl px-4 py-8">
         <div className="text-center mb-12">
           <div className="inline-flex items-center justify-center p-3 bg-primary/10 rounded-full mb-4">
             <GitBranch className="h-8 w-8 text-primary" />
@@ -95,7 +93,6 @@ export default function IntegrationsPage() {
           </p>
         </div>
 
-        {/* Integration Grid */}
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-12">
           {integrations.map((integration) => (
             <Card key={integration.name} className="hover:shadow-lg transition-all">
@@ -129,18 +126,13 @@ export default function IntegrationsPage() {
                     )}
                     Copy
                   </Button>
-                  <Button variant="ghost" size="sm" className="gap-2">
-                    Docs
-                    <ExternalLink className="h-3 w-3" />
-                  </Button>
                 </div>
               </CardContent>
             </Card>
           ))}
         </div>
 
-        {/* Webhook Section */}
-        <Card className="bg-gradient-to-br from-primary/5 to-transparent">
+        <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Zap className="h-5 w-5 text-primary" />
@@ -154,8 +146,8 @@ export default function IntegrationsPage() {
             <div className="rounded-lg bg-muted p-3">
               <code className="text-sm">POST https://your-server.com/webhook</code>
             </div>
-            <Button variant="outline" className="mt-4">
-              Configure Webhook
+            <Button variant="outline" className="mt-4" disabled>
+              Coming soon
             </Button>
           </CardContent>
         </Card>

@@ -1,4 +1,3 @@
-// src/app/changelog/page.tsx
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -82,7 +81,7 @@ export default function ChangelogPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-muted/20">
+    <div className="min-h-screen">
       <div className="container mx-auto max-w-4xl px-4 py-8">
         {/* Header */}
         <div className="text-center mb-12">
@@ -121,14 +120,6 @@ export default function ChangelogPage() {
                         <div className="flex items-center gap-3 text-sm text-muted-foreground">
                           <Calendar className="h-4 w-4" />
                           <span>{release.date}</span>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => downloadRelease(release.version)}
-                          >
-                            <Download className="h-3 w-3 mr-1" />
-                            Notes
-                          </Button>
                         </div>
                       </div>
                     </CardHeader>
@@ -151,8 +142,7 @@ export default function ChangelogPage() {
           </div>
         </div>
 
-        {/* Future Plans */}
-        <Card className="mt-8 bg-gradient-to-br from-primary/5 to-transparent">
+        <Card className="mt-8">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Rocket className="h-5 w-5 text-primary" />

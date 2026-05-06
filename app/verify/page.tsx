@@ -1,4 +1,3 @@
-// src/app/verify/page.tsx
 'use client';
 
 import { useState } from 'react';
@@ -10,7 +9,6 @@ import { Textarea } from '@/components/ui/textarea';
 import { 
   Shield, 
   ShieldAlert, 
-  CheckCircle, 
   AlertTriangle,
   ThumbsUp,
   ThumbsDown,
@@ -33,7 +31,6 @@ export default function VerifyPage() {
     }
     
     setIsVerifying(true);
-    // Simulate verification - in production, check against your database
     const saved = localStorage.getItem('malware_history');
     if (saved) {
       const history = JSON.parse(saved);
@@ -59,11 +56,10 @@ export default function VerifyPage() {
     }
     setSubmitted(true);
     toast.success('Thank you for your feedback!');
-    // In production, send to backend
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-muted/20">
+    <div className="min-h-screen">
       <div className="container mx-auto max-w-4xl px-4 py-8">
         {/* Header */}
         <div className="mb-8">
@@ -78,7 +74,6 @@ export default function VerifyPage() {
           </p>
         </div>
 
-        {/* Lookup Section */}
         <Card className="mb-8">
           <CardHeader>
             <CardTitle>Lookup Previous Analysis</CardTitle>
@@ -98,7 +93,6 @@ export default function VerifyPage() {
           </CardContent>
         </Card>
 
-        {/* Results Section */}
         {result && (
           <Card className="mb-8">
             <CardHeader>
@@ -125,7 +119,6 @@ export default function VerifyPage() {
                 </div>
               </div>
 
-              {/* Feedback Section */}
               <div className="border-t pt-4">
                 <p className="text-sm font-medium mb-3">Was this analysis correct?</p>
                 <div className="flex gap-3 mb-4">
@@ -158,7 +151,6 @@ export default function VerifyPage() {
           </Card>
         )}
 
-        {/* Report False Positive/Negative */}
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">

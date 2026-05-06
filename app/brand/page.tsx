@@ -1,9 +1,7 @@
-// src/app/brand/page.tsx
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { 
   Download, 
   FileImage, 
@@ -37,9 +35,8 @@ export default function BrandPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-muted/20">
+    <div className="min-h-screen">
       <div className="container mx-auto max-w-5xl px-4 py-8">
-        {/* Header */}
         <div className="text-center mb-12">
           <div className="inline-flex items-center justify-center p-3 bg-primary/10 rounded-full mb-4">
             <Palette className="h-8 w-8 text-primary" />
@@ -49,8 +46,6 @@ export default function BrandPage() {
             Resources and guidelines for using Lumina branding
           </p>
         </div>
-
-        {/* Logo Section */}
         <Card className="mb-8">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -59,28 +54,12 @@ export default function BrandPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="flex flex-wrap gap-8 justify-center">
+            <div className="flex flex-wrap justify-center">
               <div className="text-center">
-                <div className="rounded-lg bg-muted p-6 mb-3">
+                <div className="rounded-lg bg-muted p-6 flex items-center justify-center mb-3">
                   <Image src="/logo.png" alt="Lumina Logo" width={80} height={80} />
                 </div>
                 <p className="text-sm font-medium">Primary Logo</p>
-                <div className="flex gap-2 mt-2">
-                  <Button size="sm" variant="outline">
-                    <Download className="h-3 w-3 mr-1" />
-                    PNG
-                  </Button>
-                  <Button size="sm" variant="outline">
-                    <Download className="h-3 w-3 mr-1" />
-                    SVG
-                  </Button>
-                </div>
-              </div>
-              <div className="text-center">
-                <div className="rounded-lg bg-primary p-6 mb-3">
-                  <Image src="/logo-white.png" alt="Lumina Logo White" width={80} height={80} />
-                </div>
-                <p className="text-sm font-medium">White Variant</p>
                 <div className="flex gap-2 mt-2">
                   <Button size="sm" variant="outline">
                     <Download className="h-3 w-3 mr-1" />
@@ -172,8 +151,7 @@ export default function BrandPage() {
           </CardContent>
         </Card>
 
-        {/* Usage Guidelines */}
-        <Card className="mt-8 bg-gradient-to-br from-primary/5 to-transparent">
+        <Card className="mt-8">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Shield className="h-5 w-5" />

@@ -117,9 +117,8 @@ export default function SystemStatusPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-muted/20">
-      <div className="container mx-auto max-w-6xl px-4 py-8">
-        {/* Header */}
+    <div className="min-h-screen">
+      <div className="mx-auto max-w-5xl px-4 py-8">
         <div className="mb-8">
           <div className="flex items-center justify-between">
             <div>
@@ -140,7 +139,6 @@ export default function SystemStatusPage() {
           </div>
         </div>
 
-        {/* Status Overview */}
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-8">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
@@ -176,7 +174,6 @@ export default function SystemStatusPage() {
           </Card>
         </div>
 
-        {/* Performance Metrics */}
         <h2 className="text-2xl font-semibold mb-4">Performance Metrics</h2>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-8">
           <Card>
@@ -224,7 +221,6 @@ export default function SystemStatusPage() {
           </Card>
         </div>
 
-        {/* Analytics */}
         <div className="grid gap-6 md:grid-cols-2 mb-8">
           <Card>
             <CardHeader>
@@ -283,7 +279,6 @@ export default function SystemStatusPage() {
           </Card>
         </div>
 
-        {/* Service Endpoints */}
         <Card>
           <CardHeader>
             <CardTitle>Service Endpoints</CardTitle>

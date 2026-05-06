@@ -13,6 +13,7 @@ import {
   BarChart3,
   BookOpen,
   ChevronRight,
+  Cable,
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -77,6 +78,12 @@ const guides = [
     description: "Process multiple files efficiently.",
     icon: Upload,
     link: "/help/batch"
+  }, 
+  {
+    title: "Best Practices",
+    description: "Handle you files with care.",
+    icon: Cable,
+    link: "/help/best-practices"
   }
 ];
 
@@ -95,7 +102,7 @@ export default function HelpPage() {
 
   return (
     <div className="min-h-screen bg-linear-to-b from-background to-muted/20">
-      <div className="container mx-auto max-w-7xl px-4 py-8">
+      <div className="mx-auto max-w-5xl px-4 py-8">
         <div className="text-center mb-12">
           <div className="inline-flex items-center justify-center p-3 bg-primary/10 rounded-full mb-4">
             <HelpCircle className="h-8 w-8 text-primary" />
@@ -119,7 +126,7 @@ export default function HelpPage() {
         </div>
 
         <h2 className="text-2xl font-semibold mb-4">Quick Guides</h2>
-        <div className="grid gap-6 md:grid-cols-3 lg:grid-cols-3 mb-12">
+        <div className="grid gap-6 md:grid-cols-4 lg:grid-cols-4 mb-12">
           {guides.map((guide) => (
             <Card key={guide.title} className="hover:shadow-lg transition-all group cursor-pointer">
               <Link href={guide.link}>
@@ -138,7 +145,7 @@ export default function HelpPage() {
 
         <div className="mb-12">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-2xl font-semibold">Frequently Asked Questions</h2>
+            <h2 className="text-2xl font-semibold">FAQ</h2>
             <div className="flex gap-2 overflow-x-auto pb-2">
               {categories.map((category) => (
                 <Button

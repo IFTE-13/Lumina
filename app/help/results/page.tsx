@@ -15,8 +15,8 @@ import { Button } from '@/components/ui/button';
 
 export default function ResultsHelpPage() {
   return (
-    <div className="min-h-screen bg-linear-to-b from-background to-muted/20">
-      <div className="container mx-auto max-w-7xl px-4 py-8">
+    <div className="min-h-screen">
+      <div className="mx-auto max-w-5xl px-4 py-8">
         <div className="mb-8">
           <Link href="/help" className="text-sm text-muted-foreground hover:text-primary mb-4 inline-block">
             ← Back to Help Center
@@ -143,7 +143,7 @@ export default function ResultsHelpPage() {
 
         <div className="flex gap-3">
           <Button variant="outline" asChild>
-            <Link href="/help/faq">FAQ</Link>
+            <Link href="/help">FAQ</Link>
           </Button>
           <Button asChild>
             <Link href="/threat-detector">Try Analysis</Link>

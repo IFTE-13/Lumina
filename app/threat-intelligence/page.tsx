@@ -1,21 +1,16 @@
-// src/app/threat-intelligence/page.tsx
 'use client';
 
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
   TrendingUp, 
   AlertTriangle, 
   Shield, 
   Globe,
-  Clock,
   Activity,
   Zap,
-  BarChart3,
-  Calendar,
   Download,
   RefreshCw
 } from 'lucide-react';
@@ -55,7 +50,6 @@ export default function ThreatIntelligencePage() {
   const filtered = getFilteredHistory();
   const maliciousFiles = filtered.filter(h => h.verdict === 'MALICIOUS');
   
-  // Calculate threat statistics
   const threatStats: ThreatStat[] = [
     { name: 'High Risk', count: maliciousFiles.filter(h => h.confidence >= 80).length, percentage: 0, trend: 'up' },
     { name: 'Medium Risk', count: maliciousFiles.filter(h => h.confidence >= 60 && h.confidence < 80).length, percentage: 0, trend: 'stable' },
@@ -66,7 +60,6 @@ export default function ThreatIntelligencePage() {
     stat.percentage = maliciousFiles.length > 0 ? (stat.count / maliciousFiles.length) * 100 : 0;
   });
 
-  // Get threat timeline
   const getThreatTimeline = () => {
     const timeline: { [key: string]: number } = {};
     maliciousFiles.forEach(h => {
@@ -86,25 +79,20 @@ export default function ThreatIntelligencePage() {
 
   if (isLoading) {
     return (
-      <div className="flex min-h-[400px] items-center justify-center">
+      <div className="flex min-h-100 items-center justify-center">
         <Activity className="h-8 w-8 animate-spin text-muted-foreground" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-muted/20">
-      <div className="container mx-auto max-w-7xl px-4 py-8">
-        {/* Header */}
+    <div className="min-h-screen">
+      <div className="mx-auto max-w-5xl px-4 py-8">
         <div className="mb-8">
           <div className="flex items-center justify-between">
             <div>
-              <div className="flex items-center gap-3 mb-2">
-                <div className="rounded-lg bg-primary/10 p-2">
-                  <Globe className="h-6 w-6 text-primary" />
-                </div>
-                <h1 className="text-4xl font-bold tracking-tight">Threat Intelligence</h1>
-              </div>
+                <h1 className="text-4xl font-bold tracking-tight mb-2">Threat Intelligence</h1>
+              
               <p className="text-muted-foreground">
                 Real-time threat analysis and security insights
               </p>

@@ -1,4 +1,3 @@
-// src/app/api-docs/page.tsx
 'use client';
 
 import { useState } from 'react';
@@ -64,16 +63,12 @@ fetch('http://localhost:8000/predict', {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-muted/20">
+    <div className="min-h-screen">
       <div className="container mx-auto max-w-5xl px-4 py-8">
         {/* Header */}
         <div className="mb-8">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="rounded-lg bg-primary/10 p-2">
-              <Code className="h-6 w-6 text-primary" />
-            </div>
-            <h1 className="text-4xl font-bold tracking-tight">API Documentation</h1>
-          </div>
+          <h1 className="text-4xl font-bold tracking-tight">API Documentation</h1>
+          
           <p className="text-muted-foreground">
             Integrate Lumina malware detection into your applications
           </p>

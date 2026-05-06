@@ -1,4 +1,3 @@
-// src/lib/api.ts
 import axios from 'axios';
 import { PredictionResult, HealthStatus } from '@/app/types';
 

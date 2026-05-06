@@ -1,9 +1,7 @@
-// src/app/dashboard/page.tsx
 'use client';
 
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
@@ -13,8 +11,6 @@ import {
   ShieldAlert, 
   TrendingUp,
   CalendarDays,
-  Download,
-  TrendingDown,
   Clock,
   FileSearch,
   AlertTriangle,
@@ -54,7 +50,6 @@ export default function DashboardPage() {
   const avgConfidence = filtered.reduce((acc, h) => acc + h.confidence, 0) / (filtered.length || 1);
   const detectionRate = filtered.length > 0 ? (malicious / filtered.length) * 100 : 0;
 
-  // Get daily activity for chart
   const getDailyActivity = () => {
     const days: { [key: string]: { malicious: number; benign: number } } = {};
     filtered.forEach(h => {
@@ -68,7 +63,7 @@ export default function DashboardPage() {
 
   if (isLoading) {
     return (
-      <div className="flex min-h-[400px] items-center justify-center">
+      <div className="flex min-h-100 items-center justify-center">
         <div className="text-center">
           <Activity className="mx-auto h-8 w-8 animate-pulse text-muted-foreground" />
           <p className="mt-2 text-sm text-muted-foreground">Loading dashboard...</p>
@@ -78,13 +73,12 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-muted/20">
-      <div className="container mx-auto max-w-7xl px-4 py-8">
-        {/* Header */}
+    <div className="min-h-screen">
+      <div className="mx-auto max-w-5xl px-4 py-8">
         <div className="mb-8">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-4xl font-bold tracking-tight bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
+              <h1 className="text-4xl font-bold tracking-tight text-transparent">
                 Dashboard
               </h1>
               <p className="mt-2 text-muted-foreground">
@@ -102,7 +96,6 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* Time Range Selector */}
         <div className="mb-6 flex flex-wrap gap-2">
           {[
             { value: 'week', label: 'Last 7 Days' },
@@ -120,7 +113,6 @@ export default function DashboardPage() {
           ))}
         </div>
 
-        {/* Stats Grid */}
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4 mb-8">
           <Card className="hover:shadow-lg transition-shadow">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
@@ -186,9 +178,7 @@ export default function DashboardPage() {
           </Card>
         </div>
 
-        {/* Charts and Activity Section */}
         <div className="grid gap-6 lg:grid-cols-3 mb-8">
-          {/* Activity Timeline */}
           <Card className="lg:col-span-2">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -230,7 +220,6 @@ export default function DashboardPage() {
             </CardContent>
           </Card>
 
-          {/* Quick Stats */}
           <Card>
             <CardHeader>
               <CardTitle>Quick Stats</CardTitle>
@@ -257,9 +246,7 @@ export default function DashboardPage() {
           </Card>
         </div>
 
-        {/* Recent Activity and Quick Actions */}
         <div className="grid gap-6 lg:grid-cols-2">
-          {/* Recent Activity */}
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center justify-between">
@@ -308,7 +295,6 @@ export default function DashboardPage() {
             </CardContent>
           </Card>
 
-          {/* Quick Actions */}
           <Card>
             <CardHeader>
               <CardTitle>Quick Actions</CardTitle>

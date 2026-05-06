@@ -63,8 +63,8 @@ const steps = [
 
 export default function GettingStartedPage() {
   return (
-    <div className="min-h-screen bg-linaer-to-b from-background to-muted/20">
-      <div className="container mx-auto max-w-7xl px-4 py-8">
+    <div className="min-h-screen">
+      <div className="mx-auto max-w-5xl px-4 py-8">
         <div className="mb-8">
           <Link href="/help" className="text-sm text-muted-foreground hover:text-primary mb-4 inline-block">
             ← Back to Help Center
@@ -107,7 +107,7 @@ export default function GettingStartedPage() {
           ))}
         </div>
 
-        <Card className="mt-8 bg-linaer-to-br from-primary/5 to-transparent">
+        <Card className="mt-8">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Shield className="h-5 w-5 text-primary" />

@@ -25,11 +25,14 @@ const RESOURCE_LINKS: NavLink[] = [
   { href: '/api-docs', label: 'API Documentation' },
   { href: '/status', label: 'System Status' },
   { href: '/changelog', label: 'Changelog' },
+  { href: '/glossary', label: 'Glossary' },
+  { href: '/integrations', label: 'Integrations' },
 ];
 
 const LEGAL_LINKS: NavLink[] = [
   { href: '/privacy', label: 'Privacy Policy' },
   { href: '/about', label: 'About' },
+  { href: '/brand', label: 'Brand' },
 ];
 
 

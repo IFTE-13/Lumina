@@ -102,9 +102,8 @@ export default function GlossaryPage() {
   });
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-muted/20">
-      <div className="container mx-auto max-w-4xl px-4 py-8">
-        {/* Header */}
+    <div className="min-h-screen">
+      <div className="mx-auto max-w-5xl px-4 py-8">
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center p-3 bg-primary/10 rounded-full mb-4">
             <BookOpen className="h-8 w-8 text-primary" />
@@ -115,7 +114,6 @@ export default function GlossaryPage() {
           </p>
         </div>
 
-        {/* Search */}
         <div className="mb-6">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -128,7 +126,6 @@ export default function GlossaryPage() {
           </div>
         </div>
 
-        {/* Categories */}
         <div className="flex flex-wrap gap-2 mb-8">
           {categories.map((category) => (
             <Button
@@ -142,11 +139,10 @@ export default function GlossaryPage() {
           ))}
         </div>
 
-        {/* Terms */}
         <div className="space-y-3">
           {filteredTerms.map((term, idx) => (
             <Card key={idx}>
-              <CardContent className="pt-6">
+              <CardContent>
                 <div className="flex items-start justify-between mb-2">
                   <h3 className="font-semibold text-lg">{term.term}</h3>
                   <Badge variant="secondary" className="capitalize">

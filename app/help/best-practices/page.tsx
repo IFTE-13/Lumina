@@ -1,16 +1,12 @@
-// src/app/best-practices/page.tsx
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { 
   Shield, 
   AlertTriangle, 
-  Lock, 
-  Eye,
+  Lock,
   FileWarning,
   Network,
-  Database,
   UserCheck,
   CheckCircle
 } from 'lucide-react';
@@ -60,9 +56,8 @@ const practices = [
 
 export default function BestPracticesPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-muted/20">
-      <div className="container mx-auto max-w-5xl px-4 py-8">
-        {/* Header */}
+    <div className="min-h-screen">
+      <div className="mx-auto max-w-5xl px-4 py-8">
         <div className="text-center mb-12">
           <div className="inline-flex items-center justify-center p-3 bg-primary/10 rounded-full mb-4">
             <Shield className="h-8 w-8 text-primary" />
@@ -73,7 +68,6 @@ export default function BestPracticesPage() {
           </p>
         </div>
 
-        {/* Practices Grid */}
         <div className="space-y-8 mb-12">
           {practices.map((section) => (
             <Card key={section.category}>
@@ -99,7 +93,6 @@ export default function BestPracticesPage() {
           ))}
         </div>
 
-        {/* Warning Section */}
         <Card className="bg-yellow-500/5 border-yellow-500/20">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-yellow-600">
