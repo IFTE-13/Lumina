@@ -63,7 +63,7 @@ const steps = [
 export default function GettingStartedPage() {
   return (
     <div className="min-h-screen">
-      <div className="mx-auto max-w-5xl px-4 py-8">
+      <div className="mx-auto max-w-6xl px-4 py-8">
         <div className="mb-8">
           <Link href="/help" className="text-sm text-muted-foreground hover:text-primary mb-4 inline-block">
             ← Back to Help Center

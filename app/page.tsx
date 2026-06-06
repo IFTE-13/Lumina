@@ -17,13 +17,13 @@ import {
   Users,
   Star,
   CodeXml,
-  Upload
+  Upload,
+  ShieldCheck
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import Image from 'next/image';
 
 export default function Home() {
   const features = [
@@ -76,21 +76,13 @@ export default function Home() {
     <div className="min-h-screen bg-linear-to-b from-background via-background to-muted/20">
       <section className="relative overflow-hidden pt-20 pb-28 md:pt-32 md:pb-40">
 
-        <div className="container mx-auto max-w-6xl px-4">
+        <div className="mx-auto max-w-6xl px-4">
           <div className="text-center">
-            {/* Logo */}
             <div className="mb-8 flex justify-center">
               <div className="relative">
                 <div className="absolute inset-0 rounded-2xl bg-primary/20 blur-xl" />
                 <div className="relative rounded-2xl bg-linear-to-br from-primary/10 to-background p-4 shadow-lg">
-                  <Image
-                    src="/logo.png"
-                    alt="Lumina"
-                    width={56}
-                    height={56}
-                    className="object-contain"
-                    priority
-                  />
+                  <ShieldCheck className="h-14 w-14 text-primary" />
                 </div>
               </div>
             </div>

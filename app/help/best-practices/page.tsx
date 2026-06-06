@@ -57,7 +57,7 @@ const practices = [
 export default function BestPracticesPage() {
   return (
     <div className="min-h-screen">
-      <div className="mx-auto max-w-5xl px-4 py-8">
+      <div className="mx-auto max-w-6xl px-4 py-8">
         <div className="text-center mb-12">
           <div className="inline-flex items-center justify-center p-3 bg-primary/10 rounded-full mb-4">
             <Shield className="h-8 w-8 text-primary" />

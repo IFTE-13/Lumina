@@ -131,8 +131,7 @@ export default function ComparePage() {
 
   return (
     <div className="min-h-screen bg-linear-to-b from-background to-muted/20">
-      <div className="container mx-auto max-w-7xl px-4 py-8">
-        {/* Header */}
+      <div className="container mx-auto max-w-6xl px-4 py-8">
         <div className="mb-8">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>

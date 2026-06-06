@@ -59,7 +59,7 @@ fetch('http://localhost:8000/predict', {
 
   return (
     <div className="min-h-screen">
-      <div className="container mx-auto max-w-5xl px-4 py-8">
+      <div className="mx-auto max-w-6xl px-4 py-8">
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold tracking-tight">API Documentation</h1>
