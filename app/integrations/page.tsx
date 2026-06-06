@@ -11,7 +11,6 @@ import {
   Server,
   Shield,
   Zap,
-  ExternalLink,
   Copy,
   Check,
   CodeXml

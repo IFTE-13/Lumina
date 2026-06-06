@@ -3,7 +3,6 @@ import { fetchPrediction } from '@/lib/backend';
 import type { ApiResult, PredictionResponse } from '@/app/types/api';
 
 const MAX_FILE_SIZE = 100 * 1024 * 1024; // 100 MB
-const ALLOWED_TYPES = ['application/x-msdownload', 'application/x-msdos-program'];
 
 export async function POST(
   req: NextRequest

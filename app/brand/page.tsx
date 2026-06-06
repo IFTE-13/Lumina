@@ -75,7 +75,6 @@ export default function BrandPage() {
           </CardContent>
         </Card>
 
-        {/* Colors Section */}
         <Card className="mb-8">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -161,9 +160,9 @@ export default function BrandPage() {
           <CardContent className="space-y-2 text-sm">
             <p>✅ Do use the logo as provided, maintaining clear space</p>
             <p>✅ Do use the primary color for calls-to-action and highlights</p>
-            <p>❌ Don't modify, rotate, or distort the logo</p>
-            <p>❌ Don't use colors outside the approved palette</p>
-            <p>❌ Don't pair the logo with unrelated marks</p>
+            <p>❌ Don&apos;t modify, rotate, or distort the logo</p>
+            <p>❌ Don&apos;t use colors outside the approved palette</p>
+            <p>❌ Don&apos;t pair the logo with unrelated marks</p>
           </CardContent>
         </Card>
       </div>

@@ -1,4 +1,3 @@
-// src/app/components/ErrorBoundary.tsx
 'use client';
 
 import React from 'react';
@@ -28,7 +27,6 @@ export class MalwareDetectorErrorBoundary extends React.Component<ErrorBoundaryP
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     console.error('Analysis error:', error, errorInfo);
-    // You could send this to an error tracking service
   }
 
   handleRefresh = () => {

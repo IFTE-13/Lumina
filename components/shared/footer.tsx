@@ -1,4 +1,4 @@
-import { Shield, Mail, Heart, CodeXml, Bird } from 'lucide-react';
+import { Shield, Heart, CodeXml } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import Link from 'next/link';
 
@@ -12,7 +12,6 @@ interface TechBadge {
   url: string;
 }
 
-// Data constants
 const PRODUCT_LINKS: NavLink[] = [
   { href: '/threat-detector', label: 'Threat Detector' },
   { href: '/dashboard', label: 'Dashboard' },
@@ -52,7 +51,6 @@ export function Footer() {
       <Separator />
       <div className="mx-auto max-w-7xl px-4 py-8">
         <div className="grid gap-8 md:grid-cols-4">
-          {/* Brand Section */}
           <div className="space-y-3">
             <div className="flex items-center gap-2">
               <Shield className="h-5 w-5 text-primary" />

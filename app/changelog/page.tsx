@@ -2,7 +2,6 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { 
   GitBranch, 
   Rocket, 
@@ -10,11 +9,9 @@ import {
   Sparkles, 
   Shield, 
   Zap,
-  Download,
   Calendar,
   Tag
 } from 'lucide-react';
-import { toast } from 'sonner';
 
 const releases = [
   {
@@ -76,10 +73,6 @@ const getTypeIcon = (type: string) => {
 };
 
 export default function ChangelogPage() {
-  const downloadRelease = (version: string) => {
-    toast.success(`Downloading release ${version} notes`);
-  };
-
   return (
     <div className="min-h-screen">
       <div className="container mx-auto max-w-4xl px-4 py-8">
@@ -94,9 +87,7 @@ export default function ChangelogPage() {
           </p>
         </div>
 
-        {/* Timeline */}
         <div className="relative">
-          {/* Timeline line */}
           <div className="absolute left-6 top-0 bottom-0 w-px bg-border hidden md:block" />
           
           <div className="space-y-8">

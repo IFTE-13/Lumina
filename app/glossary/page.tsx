@@ -1,4 +1,3 @@
-// src/app/glossary/page.tsx
 'use client';
 
 import { useState } from 'react';
@@ -8,13 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { 
   BookOpen, 
-  Search, 
-  Shield, 
-  Cpu, 
-  Database,
-  Network,
-  FileText,
-  Hash
+  Search,
 } from 'lucide-react';
 
 const terms = [

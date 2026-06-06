@@ -1,4 +1,3 @@
-// src/app/components/FileUploader.tsx
 'use client';
 
 import { useCallback } from 'react';
@@ -43,7 +42,6 @@ export function FileUploader({
   return (
     <div className="w-full space-y-3">
       {!selectedFile ? (
-        /* ── Drop zone ── */
         <div
           {...getRootProps()}
           className={cn(
@@ -57,7 +55,6 @@ export function FileUploader({
           <input {...getInputProps()} />
 
           <div className="flex flex-col items-center justify-center gap-3 px-8 py-14 text-center">
-            {/* Icon */}
             <div
               className={cn(
                 'flex h-14 w-14 items-center justify-center rounded-xl border transition-colors duration-200',
@@ -69,7 +66,6 @@ export function FileUploader({
               <Upload className="h-6 w-6" />
             </div>
 
-            {/* Text */}
             <div className="space-y-1">
               <p className="text-sm font-medium">
                 {isDragActive ? 'Release to upload' : 'Drop your executable here'}
@@ -82,7 +78,6 @@ export function FileUploader({
               </p>
             </div>
 
-            {/* Constraint badge */}
             <div className="mt-1 flex items-center gap-1.5 rounded-full border border-border bg-muted/60 px-3 py-1 text-xs text-muted-foreground">
               <HardDrive className="h-3 w-3" />
               Windows executable (.exe) only
@@ -90,7 +85,6 @@ export function FileUploader({
           </div>
         </div>
       ) : (
-        /* ── Selected file card ── */
         <div
           className={cn(
             'flex items-center justify-between rounded-lg border bg-muted/40 px-4 py-3 transition-opacity',
@@ -98,12 +92,10 @@ export function FileUploader({
           )}
         >
           <div className="flex items-center gap-3 min-w-0">
-            {/* File icon */}
             <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md border border-primary/30 bg-primary/10">
               <FileText className="h-4 w-4 text-primary" />
             </div>
 
-            {/* File info */}
             <div className="min-w-0">
               <p className="truncate text-sm font-medium leading-tight">
                 {selectedFile.name}
@@ -114,7 +106,6 @@ export function FileUploader({
             </div>
           </div>
 
-          {/* Clear button */}
           <Button
             variant="ghost"
             size="icon"
@@ -128,7 +119,6 @@ export function FileUploader({
         </div>
       )}
 
-      {/* Validation error */}
       {fileRejections.length > 0 && (
         <Alert variant="destructive" className="py-2.5">
           <AlertCircle className="h-4 w-4" />

@@ -16,11 +16,21 @@ import {
   Send
 } from 'lucide-react';
 import { toast } from 'sonner';
+import type { HistoryItem } from '@/app/types';
+interface VerificationResult {
+  filename: string;
+  verdict: 'BENIGN' | 'MALICIOUS';
+  confidence: number;
+  timestamp: string | Date;
+  fileSize?: number;
+  probability_benign?: number;
+  probability_malicious?: number;
+}
 
 export default function VerifyPage() {
   const [hash, setHash] = useState('');
   const [isVerifying, setIsVerifying] = useState(false);
-  const [result, setResult] = useState<any>(null);
+  const [result, setResult] = useState<VerificationResult | null>(null);
   const [feedback, setFeedback] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
@@ -33,13 +43,21 @@ export default function VerifyPage() {
     setIsVerifying(true);
     const saved = localStorage.getItem('malware_history');
     if (saved) {
-      const history = JSON.parse(saved);
-      const found = history.find((h: any) => 
+      const history: HistoryItem[] = JSON.parse(saved);
+      const found = history.find((h: HistoryItem) => 
         h.filename.toLowerCase().includes(hash.toLowerCase())
       );
       
       if (found) {
-        setResult(found);
+        setResult({
+          filename: found.filename,
+          verdict: found.verdict,
+          confidence: found.confidence,
+          timestamp: found.timestamp,
+          fileSize: found.fileSize,
+          probability_benign: found.probability_benign,
+          probability_malicious: found.probability_malicious,
+        });
         toast.success('Analysis found');
       } else {
         setResult(null);
@@ -56,6 +74,26 @@ export default function VerifyPage() {
     }
     setSubmitted(true);
     toast.success('Thank you for your feedback!');
+  };
+
+  const handleCorrectFeedback = () => {
+    toast.success('Thank you for confirming this analysis!');
+  };
+
+  const handleIncorrectFeedback = () => {
+    toast.info('Please provide more details below to help us improve.');
+  };
+
+  const handleReportIssue = () => {
+    toast.info('Please describe the issue in the comments section below.');
+  };
+
+  const handleReportFalsePositive = () => {
+    toast.info('Please share the file details to help us investigate the false positive.');
+  };
+
+  const handleReportFalseNegative = () => {
+    toast.info('Please share the file details to help us investigate the false negative.');
   };
 
   return (
@@ -83,7 +121,7 @@ export default function VerifyPage() {
               <Input
                 placeholder="Enter SHA-256 hash or filename"
                 value={hash}
-                onChange={(e) => setHash(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setHash(e.target.value)}
                 className="font-mono"
               />
               <Button onClick={verifyHash} disabled={isVerifying}>
@@ -94,7 +132,7 @@ export default function VerifyPage() {
         </Card>
 
         {result && (
-          <Card className="mb-8">
+          <Card className="mb-8 border-emerald-500/30 bg-linear-to-br from-emerald-500/5 to-transparent">
             <CardHeader>
               <CardTitle className="flex items-center justify-between">
                 <span>Analysis Result</span>
@@ -107,7 +145,7 @@ export default function VerifyPage() {
               <div className="grid gap-4 md:grid-cols-2">
                 <div>
                   <p className="text-xs text-muted-foreground">Filename</p>
-                  <p className="font-mono text-sm">{result.filename}</p>
+                  <p className="font-mono text-sm break-all">{result.filename}</p>
                 </div>
                 <div>
                   <p className="text-xs text-muted-foreground">Analysis Date</p>
@@ -115,22 +153,22 @@ export default function VerifyPage() {
                 </div>
                 <div>
                   <p className="text-xs text-muted-foreground">Confidence</p>
-                  <p className="text-sm font-bold">{result.confidence}%</p>
+                  <p className="text-2xl font-bold">{result.confidence}%</p>
                 </div>
               </div>
 
-              <div className="border-t pt-4">
+              <div className="border-t pt-4 mt-2">
                 <p className="text-sm font-medium mb-3">Was this analysis correct?</p>
                 <div className="flex gap-3 mb-4">
-                  <Button variant="outline" className="gap-2">
+                  <Button variant="outline" className="gap-2" onClick={handleCorrectFeedback}>
                     <ThumbsUp className="h-4 w-4" />
                     Correct
                   </Button>
-                  <Button variant="outline" className="gap-2">
+                  <Button variant="outline" className="gap-2" onClick={handleIncorrectFeedback}>
                     <ThumbsDown className="h-4 w-4" />
                     Incorrect
                   </Button>
-                  <Button variant="outline" className="gap-2">
+                  <Button variant="outline" className="gap-2" onClick={handleReportIssue}>
                     <Flag className="h-4 w-4" />
                     Report Issue
                   </Button>
@@ -139,8 +177,9 @@ export default function VerifyPage() {
                 <Textarea
                   placeholder="Additional comments (optional)..."
                   value={feedback}
-                  onChange={(e : any) => setFeedback(e.target.value)}
+                  onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setFeedback(e.target.value)}
                   className="mb-3"
+                  rows={4}
                 />
                 <Button onClick={submitFeedback} disabled={submitted}>
                   <Send className="mr-2 h-4 w-4" />
@@ -163,11 +202,11 @@ export default function VerifyPage() {
               Help us improve by reporting files that were incorrectly classified.
             </p>
             <div className="grid gap-4 md:grid-cols-2">
-              <Button variant="outline" className="gap-2">
+              <Button variant="outline" className="gap-2" onClick={handleReportFalsePositive}>
                 <ShieldAlert className="h-4 w-4" />
                 Report False Positive
               </Button>
-              <Button variant="outline" className="gap-2">
+              <Button variant="outline" className="gap-2" onClick={handleReportFalseNegative}>
                 <Shield className="h-4 w-4" />
                 Report False Negative
               </Button>

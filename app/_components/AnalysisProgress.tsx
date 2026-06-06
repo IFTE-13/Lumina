@@ -1,7 +1,6 @@
-// src/app/components/AnalysisProgress.tsx
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { 
   Loader2, 
   CheckCircle, 
@@ -67,19 +66,33 @@ const stages: AnalysisStage[] = [
 export function AnalysisProgress({ isActive, currentStage, onComplete, error }: AnalysisProgressProps) {
   const [animatedStages, setAnimatedStages] = useState<AnalysisStage[]>(stages);
   const [overallProgress, setOverallProgress] = useState(0);
+  const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
 
+  // Reset when not active
   useEffect(() => {
     if (!isActive) {
-      // Reset when not active
-      setAnimatedStages(stages.map(s => ({ ...s, status: 'pending' as StageStatus })));
-      setOverallProgress(0);
-      return;
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = undefined;
+      }
+      // Use a timeout to avoid cascading renders
+      const resetTimer = setTimeout(() => {
+        setAnimatedStages(stages.map(s => ({ ...s, status: 'pending' as StageStatus })));
+        setOverallProgress(0);
+      }, 0);
+      return () => clearTimeout(resetTimer);
     }
+  }, [isActive]);
 
-    // Animate progress based on current stage
-    const stageIndex = animatedStages.findIndex(s => s.id === currentStage);
-    
-    setAnimatedStages(prev => prev.map((stage, idx) => {
+  // Update progress based on current stage
+  useEffect(() => {
+    if (!isActive || !currentStage) return;
+
+    const stageIndex = stages.findIndex(s => s.id === currentStage);
+    if (stageIndex === -1) return;
+
+    // Calculate new stage statuses
+    const newStages = stages.map((stage, idx) => {
       if (error && idx <= stageIndex) {
         return { ...stage, status: 'error' as StageStatus };
       }
@@ -90,37 +103,43 @@ export function AnalysisProgress({ isActive, currentStage, onComplete, error }: 
         return { ...stage, status: 'active' as StageStatus };
       }
       return { ...stage, status: 'pending' as StageStatus };
-    }));
+    });
 
     // Calculate overall progress
     const progressPerStage = 100 / stages.length;
-    let progress = 0;
-    
-    if (stageIndex !== undefined && stageIndex >= 0) {
-      progress = (stageIndex) * progressPerStage;
-      
-      // Add some animation during active stage
-      if (animatedStages[stageIndex]?.status === 'active') {
-        progress += Math.random() * progressPerStage * 0.5;
-      }
-    }
+    const baseProgress = stageIndex * progressPerStage;
     
     if (error) {
-      setOverallProgress(0);
-    } else if (stageIndex === stages.length - 1 && animatedStages[stageIndex]?.status === 'completed') {
-      setOverallProgress(100);
-      if (onComplete) setTimeout(onComplete, 500);
+      const errorTimer = setTimeout(() => setOverallProgress(0), 0);
+      return () => clearTimeout(errorTimer);
+    } else if (stageIndex === stages.length - 1 && newStages[stageIndex]?.status === 'completed') {
+      const completeTimer = setTimeout(() => {
+        setOverallProgress(100);
+        if (onComplete) {
+          timeoutRef.current = setTimeout(onComplete, 500);
+        }
+      }, 0);
+      return () => clearTimeout(completeTimer);
     } else {
-      setOverallProgress(Math.min(progress, 95));
+      // Add some randomness during active stage for visual effect
+      const randomBonus = Math.random() * progressPerStage * 0.3;
+      const progressTimer = setTimeout(() => {
+        setOverallProgress(Math.min(baseProgress + randomBonus, 95));
+      }, 0);
+      return () => clearTimeout(progressTimer);
     }
-  }, [currentStage, isActive, error, onComplete, animatedStages]);
+  }, [currentStage, isActive, error, onComplete]);
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
 
   if (!isActive && !error) return null;
-
-  // Helper function to determine if status matches
-  const isStatus = (status: StageStatus, check: string): boolean => {
-    return status === check;
-  };
 
   return (
     <Card className="w-full overflow-hidden">
@@ -148,16 +167,13 @@ export function AnalysisProgress({ isActive, currentStage, onComplete, error }: 
             )}
           </div>
 
-          {/* Overall Progress Bar */}
           {!error && (
             <Progress value={overallProgress} className="h-2" />
           )}
 
-          {/* Stage Timeline */}
           <div className="space-y-3">
             {animatedStages.map((stage, idx) => (
               <div key={stage.id} className="relative">
-                {/* Connector line */}
                 {idx < animatedStages.length - 1 && (
                   <div 
                     className={cn(
@@ -168,7 +184,6 @@ export function AnalysisProgress({ isActive, currentStage, onComplete, error }: 
                 )}
                 
                 <div className="flex items-start gap-3">
-                  {/* Icon circle */}
                   <div
                     className={cn(
                       'relative flex h-8 w-8 shrink-0 items-center justify-center rounded-full border-2 transition-all duration-300',
@@ -192,7 +207,6 @@ export function AnalysisProgress({ isActive, currentStage, onComplete, error }: 
                     )}
                   </div>
                   
-                  {/* Stage info */}
                   <div className="flex-1 space-y-1">
                     <div className="flex items-center gap-2">
                       {stage.icon}
@@ -222,7 +236,6 @@ export function AnalysisProgress({ isActive, currentStage, onComplete, error }: 
             ))}
           </div>
 
-          {/* Error message */}
           {error && (
             <div className="mt-4 rounded-lg border border-red-500/30 bg-red-500/10 p-3">
               <div className="flex items-start gap-2">

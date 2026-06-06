@@ -1,4 +1,3 @@
-// src/app/components/BatchQueue.tsx
 'use client';
 
 import { useState } from 'react';

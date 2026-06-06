@@ -27,13 +27,17 @@ export default function DashboardPage() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+  const loadHistory = () => {
     const saved = localStorage.getItem('malware_history');
     if (saved) {
       const parsed = JSON.parse(saved);
       setHistory(parsed);
     }
     setIsLoading(false);
-  }, []);
+  };
+  
+  loadHistory();
+}, []);
 
   const getFilteredHistory = () => {
     const now = new Date();
@@ -105,7 +109,7 @@ export default function DashboardPage() {
             <Button
               key={range.value}
               variant={timeRange === range.value ? 'default' : 'outline'}
-              onClick={() => setTimeRange(range.value as any)}
+              onClick={() => setTimeRange(range.value as 'week' | 'month' | 'all')}
               size="sm"
             >
               {range.label}

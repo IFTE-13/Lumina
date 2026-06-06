@@ -1,7 +1,6 @@
-// src/app/status/page.tsx
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -16,7 +15,6 @@ import {
   Cpu,
   Zap,
   RefreshCw,
-  TrendingUp,
   AlertCircle
 } from 'lucide-react';
 import { toast } from 'sonner';
@@ -46,31 +44,10 @@ export default function SystemStatusPage() {
     avgConfidence: 94.2
   });
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [history, setHistory] = useState<any[]>([]);
-
-  useEffect(() => {
-    const saved = localStorage.getItem('malware_history');
-    if (saved) {
-      const parsed = JSON.parse(saved);
-      setHistory(parsed);
-      
-      // Calculate real metrics from history
-      const avgConf = parsed.length > 0 
-        ? parsed.reduce((acc: number, h: any) => acc + h.confidence, 0) / parsed.length 
-        : 0;
-      
-      setStatus(prev => ({
-        ...prev,
-        requestsToday: parsed.length,
-        avgConfidence: avgConf
-      }));
-    }
-  }, []);
 
   const refreshStatus = async () => {
     setIsRefreshing(true);
     
-    // Simulate API health check
     try {
       const response = await fetch('http://localhost:8000/health');
       if (response.ok) {
@@ -83,8 +60,9 @@ export default function SystemStatusPage() {
         toast.success('Status updated');
       } else {
         setStatus(prev => ({ ...prev, api: 'degraded' }));
+        toast.warning('API is degraded');
       }
-    } catch (error) {
+    } catch {
       setStatus(prev => ({ ...prev, api: 'down' }));
       toast.error('API connection failed');
     }
@@ -92,7 +70,7 @@ export default function SystemStatusPage() {
     setIsRefreshing(false);
   };
 
-  const getStatusColor = (status: string) => {
+  const getStatusColor = (status: string): string => {
     switch (status) {
       case 'healthy': return 'text-emerald-500';
       case 'loaded': return 'text-emerald-500';
@@ -117,10 +95,11 @@ export default function SystemStatusPage() {
   };
 
   return (
-    <div className="min-h-screen">
-      <div className="mx-auto max-w-5xl px-4 py-8">
+    <div className="min-h-screen bg-linear-to-b from-background to-muted/20">
+      <div className="container mx-auto max-w-6xl px-4 py-8">
+        {/* Header */}
         <div className="mb-8">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <div className="flex items-center gap-3 mb-2">
                 <div className="rounded-lg bg-primary/10 p-2">
@@ -139,11 +118,14 @@ export default function SystemStatusPage() {
           </div>
         </div>
 
+        {/* Status Cards */}
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-8">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium">API Status</CardTitle>
-              {getStatusIcon(status.api)}
+              <div className="rounded-lg bg-muted/50 p-1">
+                {getStatusIcon(status.api)}
+              </div>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold capitalize">{status.api}</div>
@@ -154,7 +136,9 @@ export default function SystemStatusPage() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium">ML Model</CardTitle>
-              {getStatusIcon(status.model)}
+              <div className="rounded-lg bg-muted/50 p-1">
+                {getStatusIcon(status.model)}
+              </div>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold capitalize">{status.model}</div>
@@ -165,7 +149,9 @@ export default function SystemStatusPage() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium">Database</CardTitle>
-              {getStatusIcon(status.database)}
+              <div className="rounded-lg bg-muted/50 p-1">
+                {getStatusIcon(status.database)}
+              </div>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold capitalize">{status.database}</div>
@@ -174,12 +160,15 @@ export default function SystemStatusPage() {
           </Card>
         </div>
 
+        {/* Performance Metrics */}
         <h2 className="text-2xl font-semibold mb-4">Performance Metrics</h2>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-8">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium">Uptime</CardTitle>
-              <Server className="h-4 w-4 text-muted-foreground" />
+              <div className="rounded-lg bg-muted/50 p-1">
+                <Server className="h-4 w-4 text-muted-foreground" />
+              </div>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{status.uptime}%</div>
@@ -190,7 +179,9 @@ export default function SystemStatusPage() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium">Response Time</CardTitle>
-              <Zap className="h-4 w-4 text-muted-foreground" />
+              <div className="rounded-lg bg-muted/50 p-1">
+                <Zap className="h-4 w-4 text-muted-foreground" />
+              </div>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{status.responseTime}ms</div>
@@ -201,7 +192,9 @@ export default function SystemStatusPage() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium">CPU Usage</CardTitle>
-              <Cpu className="h-4 w-4 text-muted-foreground" />
+              <div className="rounded-lg bg-muted/50 p-1">
+                <Cpu className="h-4 w-4 text-muted-foreground" />
+              </div>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{status.cpuUsage}%</div>
@@ -212,7 +205,9 @@ export default function SystemStatusPage() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium">Memory Usage</CardTitle>
-              <Database className="h-4 w-4 text-muted-foreground" />
+              <div className="rounded-lg bg-muted/50 p-1">
+                <Database className="h-4 w-4 text-muted-foreground" />
+              </div>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{status.memoryUsage}%</div>
@@ -221,39 +216,14 @@ export default function SystemStatusPage() {
           </Card>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2 mb-8">
+        {/* Analytics and Incidents */}
+        <div className="mb-8">
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <TrendingUp className="h-5 w-5" />
-                Usage Analytics
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div>
-                <div className="flex justify-between text-sm mb-1">
-                  <span>Total Requests Today</span>
-                  <span className="font-bold">{status.requestsToday}</span>
+                <div className="rounded-lg bg-muted/50 p-1">
+                  <Clock className="h-4 w-4" />
                 </div>
-                <Progress value={(status.requestsToday / 5000) * 100} className="h-1" />
-              </div>
-              <div>
-                <div className="flex justify-between text-sm mb-1">
-                  <span>Average Confidence</span>
-                  <span className="font-bold">{status.avgConfidence.toFixed(1)}%</span>
-                </div>
-                <Progress value={status.avgConfidence} className="h-1" />
-              </div>
-              <div className="pt-2 text-xs text-muted-foreground">
-                Last updated: {new Date().toLocaleString()}
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Clock className="h-5 w-5" />
                 Recent Incidents
               </CardTitle>
             </CardHeader>
@@ -279,23 +249,24 @@ export default function SystemStatusPage() {
           </Card>
         </div>
 
+        {/* Service Endpoints */}
         <Card>
           <CardHeader>
             <CardTitle>Service Endpoints</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
-              <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
-                <code className="text-sm">GET /health</code>
-                <Badge variant="outline" className="text-emerald-500">Operational</Badge>
+              <div className="flex items-center justify-between p-3 rounded-lg bg-muted/30">
+                <code className="text-sm font-mono">GET /health</code>
+                <Badge variant="outline" className="border-emerald-500/50 text-emerald-600">Operational</Badge>
               </div>
-              <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
-                <code className="text-sm">POST /predict</code>
-                <Badge variant="outline" className="text-emerald-500">Operational</Badge>
+              <div className="flex items-center justify-between p-3 rounded-lg bg-muted/30">
+                <code className="text-sm font-mono">POST /predict</code>
+                <Badge variant="outline" className="border-emerald-500/50 text-emerald-600">Operational</Badge>
               </div>
-              <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
-                <code className="text-sm">GET /</code>
-                <Badge variant="outline" className="text-emerald-500">Operational</Badge>
+              <div className="flex items-center justify-between p-3 rounded-lg bg-muted/30">
+                <code className="text-sm font-mono">GET /</code>
+                <Badge variant="outline" className="border-emerald-500/50 text-emerald-600">Operational</Badge>
               </div>
             </div>
           </CardContent>

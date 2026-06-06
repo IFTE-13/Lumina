@@ -1,4 +1,3 @@
-// src/app/components/resultCard.tsx (Professional Version)
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -8,6 +7,7 @@ import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
 import { ConfidenceGauge } from './confidenceGauge';
 import { ExportReport, ReportData } from './ExportReport';
+import { AnalysisProgress } from './AnalysisProgress';
 import { computeFileHash } from '@/lib/crypto';
 import { formatFileSize } from '@/lib/utils';
 import type { PredictionResponse } from '@/app/types/api';
@@ -37,8 +37,11 @@ export function ResultCard({
   fileSize, 
   timestamp, 
   selectedFile,
+  isAnalyzing = false,
+  currentStage,
+  error
 }: ResultCardProps) {
-  const isMalicious = result.verdict === 'MALICIOUS';
+  // ✅ Move ALL hooks to the top, before any conditional returns
   const [fileHash, setFileHash] = useState<string>('');
   const [copied, setCopied] = useState(false);
 
@@ -66,9 +69,31 @@ export function ResultCard({
     fileHash,
   };
 
+  // ✅ Now conditional returns can happen AFTER all hooks
+  if (isAnalyzing) {
+    return (
+      <AnalysisProgress 
+        isActive={isAnalyzing}
+        currentStage={currentStage}
+        error={error}
+      />
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="rounded-xl border border-red-500/30 bg-red-500/5 p-6 text-center">
+        <XCircle className="mx-auto h-12 w-12 text-red-500 mb-3" />
+        <h3 className="font-semibold text-lg mb-2">Analysis Failed</h3>
+        <p className="text-sm text-muted-foreground">{error}</p>
+      </div>
+    );
+  }
+
+  const isMalicious = result.verdict === 'MALICIOUS';
+
   return (
     <div className="space-y-6">
-      {/* Main Result Card */}
       <div
         className={cn(
           'rounded-xl border shadow-sm overflow-hidden transition-all',

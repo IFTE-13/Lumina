@@ -1,4 +1,3 @@
-// app/page.tsx
 'use client';
 
 import Link from 'next/link';
@@ -11,17 +10,12 @@ import {
   Clock,
   FileSearch,
   Server,
-  Sparkles,
   CheckCircle,
   Cpu,
-  Database,
   Cloud,
-  HardDrive,
   TrendingUp,
   Users,
-  Award,
   Star,
-  Rocket,
   CodeXml,
   Upload
 } from 'lucide-react';
@@ -79,7 +73,7 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background via-background to-muted/20">
+    <div className="min-h-screen bg-linear-to-b from-background via-background to-muted/20">
       <section className="relative overflow-hidden pt-20 pb-28 md:pt-32 md:pb-40">
 
         <div className="container mx-auto max-w-6xl px-4">
@@ -88,7 +82,7 @@ export default function Home() {
             <div className="mb-8 flex justify-center">
               <div className="relative">
                 <div className="absolute inset-0 rounded-2xl bg-primary/20 blur-xl" />
-                <div className="relative rounded-2xl bg-gradient-to-br from-primary/10 to-background p-4 shadow-lg">
+                <div className="relative rounded-2xl bg-linear-to-br from-primary/10 to-background p-4 shadow-lg">
                   <Image
                     src="/logo.png"
                     alt="Lumina"
@@ -101,23 +95,20 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Title */}
             <div className="mb-4 flex items-center justify-center gap-2">
               <h1 className="text-5xl font-bold tracking-tight sm:text-6xl md:text-7xl">
-                <span className="bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
+                <span className="bg-linear-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
                   Lumina
                 </span>
               </h1>
               <Badge className="hidden sm:inline-flex">AI-Powered</Badge>
             </div>
 
-            {/* Description */}
             <p className="mx-auto mb-6 max-w-2xl text-lg text-muted-foreground sm:text-xl">
               Advanced malware detection powered by machine learning. 
               Protect your systems with real-time PE analysis.
             </p>
 
-            {/* Trust Badges */}
             <div className="mb-10 flex flex-wrap justify-center gap-2">
               {[
                 { icon: Shield, label: '99.9% Accurate' },
@@ -131,7 +122,6 @@ export default function Home() {
               ))}
             </div>
 
-            {/* CTA Buttons */}
             <div className="flex flex-wrap items-center justify-center gap-4">
               <Link href="/threat-detector">
                 <Button size="lg" className="group gap-2 px-8 shadow-lg transition-all hover:shadow-xl">
@@ -153,7 +143,6 @@ export default function Home() {
               </a>
             </div>
 
-            {/* Stats */}
             <div className="mt-20">
               <Separator className="mb-8" />
               <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
@@ -171,7 +160,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Features Section */}
       <section className="py-20 md:py-28">
         <div className="container mx-auto max-w-6xl px-4">
           <div className="mb-16 text-center">
@@ -201,7 +189,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* How It Works Section */}
       <section className="bg-muted/30 py-20 md:py-28">
         <div className="container mx-auto max-w-6xl px-4">
           <div className="mb-16 text-center">
@@ -243,7 +230,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA Section */}
       <section className="py-20 md:py-28">
         <div className="container mx-auto max-w-5xl px-4">
           <div className="relative overflow-hidden rounded-2xl p-12 text-center shadow-sm">

@@ -1,9 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
-import { 
-  CodeXml, 
+import {
   Menu, 
   X,
 } from 'lucide-react';
@@ -21,14 +20,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
-import { Separator } from '@/components/ui/separator';
 import { AnimatedThemeToggler } from '@/components/ui/animated-theme-toggler';
 
 const navigation = [
   { name: 'Detector', href: '/threat-detector'},
   { name: 'Dashboard', href: '/dashboard'},
   { name: 'Compare', href: '/compare'},
-  { name: 'Lookup', href: '/lookup'},
   { name: 'Batch Reports', href: '/batch-reports'},
   { name: 'Help', href: '/help'},
 ];
@@ -47,9 +44,14 @@ export function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const prevPathname = useRef(pathname);
+
   useEffect(() => {
-    setIsMobileMenuOpen(false);
-  }, [pathname]);
+    if (isMobileMenuOpen && prevPathname.current !== pathname) {
+      setIsMobileMenuOpen(false);
+      prevPathname.current = pathname;
+    }
+  }, [pathname, isMobileMenuOpen]);
 
   return (
     <nav className={cn(
@@ -108,49 +110,37 @@ export function Navbar() {
                   size="sm" 
                   className="gap-1.5 px-3 transition-all duration-200 hover:bg-muted/80 group"
                 >
-                  <span className="text-sm font-medium">More</span>
                   <ChevronDown className="h-3.5 w-3.5 transition-transform duration-200 group-data-[state=open]:rotate-180" />
                 </Button>
               </DropdownMenuTrigger>
-                <DropdownMenuContent 
-                  align="end" 
-                  className="min-w-45 p-1 rounded-lg border shadow-lg bg-background/95 backdrop-blur-sm"
-                  sideOffset={8}
-                >
-                  <DropdownMenuItem asChild className="cursor-pointer rounded-md px-3 py-2 text-sm focus:bg-accent focus:text-accent-foreground">
-                    <Link href="/threat-intelligence">Threat Intelligence</Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild className="cursor-pointer rounded-md px-3 py-2 text-sm focus:bg-accent focus:text-accent-foreground">
-                    <Link href="/verify">Verify Analysis</Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild className="cursor-pointer rounded-md px-3 py-2 text-sm focus:bg-accent focus:text-accent-foreground">
-                    <Link href="/status">System Status</Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild className="cursor-pointer rounded-md px-3 py-2 text-sm focus:bg-accent focus:text-accent-foreground">
-                    <Link href="/api-docs">API Docs</Link>
-                  </DropdownMenuItem>
-                  
-                  <DropdownMenuSeparator className="my-1" />
-                  
-                  <DropdownMenuItem asChild className="cursor-pointer rounded-md px-3 py-2 text-sm focus:bg-accent focus:text-accent-foreground">
-                    <Link href="/changelog">Changelog</Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild className="cursor-pointer rounded-md px-3 py-2 text-sm focus:bg-accent focus:text-accent-foreground">
-                    <Link href="/about">About</Link>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
+              <DropdownMenuContent 
+                align="end" 
+                className="min-w-45 p-1 rounded-lg border shadow-lg bg-background/95 backdrop-blur-sm"
+                sideOffset={8}
+              >
+                <DropdownMenuItem asChild className="cursor-pointer rounded-md px-3 py-2 text-sm focus:bg-accent focus:text-accent-foreground">
+                  <Link href="/threat-intelligence">Threat Intelligence</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild className="cursor-pointer rounded-md px-3 py-2 text-sm focus:bg-accent focus:text-accent-foreground">
+                  <Link href="/verify">Verify Analysis</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild className="cursor-pointer rounded-md px-3 py-2 text-sm focus:bg-accent focus:text-accent-foreground">
+                  <Link href="/status">System Status</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild className="cursor-pointer rounded-md px-3 py-2 text-sm focus:bg-accent focus:text-accent-foreground">
+                  <Link href="/api-docs">API Docs</Link>
+                </DropdownMenuItem>
+                
+                <DropdownMenuSeparator className="my-1" />
+                
+                <DropdownMenuItem asChild className="cursor-pointer rounded-md px-3 py-2 text-sm focus:bg-accent focus:text-accent-foreground">
+                  <Link href="/changelog">Changelog</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild className="cursor-pointer rounded-md px-3 py-2 text-sm focus:bg-accent focus:text-accent-foreground">
+                  <Link href="/about">About</Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
             </DropdownMenu>
-            
-            <a
-              href="https://github.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden md:block"
-            >
-              <Button variant="ghost" size="icon" className="h-8 w-8">
-                <CodeXml className="h-4 w-4" />
-              </Button>
-            </a>
 
             <Button
               variant="ghost"
@@ -172,6 +162,7 @@ export function Navbar() {
                   <Link
                     key={item.name}
                     href={item.href}
+                    onClick={() => setIsMobileMenuOpen(false)}
                     className={cn(
                       'flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium transition-colors',
                       isActive
@@ -183,16 +174,6 @@ export function Navbar() {
                   </Link>
                 );
               })}
-              <Separator className="my-2" />
-              <a
-                href="https://github.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-3 rounded-md px-3 py-2.5 text-sm text-muted-foreground hover:bg-muted/50 hover:text-foreground"
-              >
-                <CodeXml className="h-4 w-4" />
-                GitHub
-              </a>
             </div>
           </div>
         )}

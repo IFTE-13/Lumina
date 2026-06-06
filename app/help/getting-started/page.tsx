@@ -7,7 +7,6 @@ import {
   Upload, 
   BarChart3, 
   Shield,
-  ArrowRight,
   CheckCircle,
   FileText,
   Zap

@@ -1,4 +1,3 @@
-// src/app/components/ExportReport.tsx
 'use client';
 
 import { useState } from 'react';
@@ -335,7 +334,6 @@ export function ExportReport({ data, variant = 'outline', size = 'sm', className
   );
 }
 
-// Helper functions
 function formatBytes(bytes: number): string {
   if (bytes === 0) return '0 Bytes';
   const k = 1024;

@@ -1,4 +1,3 @@
-// src/app/privacy/page.tsx
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -88,10 +87,10 @@ export default function PrivacyPage() {
             </CardHeader>
             <CardContent className="space-y-3">
               <p className="text-sm text-muted-foreground">
-                We store only what's necessary for functionality:
+                We store only what&apos;s necessary for functionality:
               </p>
               <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
-                <li>Analysis history stored locally in your browser's localStorage</li>
+                <li>Analysis history stored locally in your browser&apos;s localStorage</li>
                 <li>No cloud storage of analysis results by default</li>
                 <li>You can clear your history at any time via Settings</li>
                 <li>Export reports are saved only at your request</li>

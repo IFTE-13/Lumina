@@ -25,31 +25,33 @@ interface BatchSession {
 }
 
 export default function BatchReportsPage() {
-  const [history, setHistory] = useState<HistoryItem[]>([]);
   const [batches, setBatches] = useState<BatchSession[]>([]);
 
   useEffect(() => {
-    const saved = localStorage.getItem('malware_history');
-    if (saved) {
-      const parsed = JSON.parse(saved);
-      setHistory(parsed);
-      
-      const grouped = new Map<string, HistoryItem[]>();
-      parsed.forEach((item: HistoryItem) => {
-        const date = new Date(item.timestamp).toDateString();
-        if (!grouped.has(date)) grouped.set(date, []);
-        grouped.get(date)!.push(item);
-      });
-      
-      const batchSessions: BatchSession[] = Array.from(grouped.entries()).map(([date, files], index) => ({
-        id: `batch-${index}`,
-        date: new Date(date),
-        files,
-        name: `Batch Analysis - ${date}`
-      }));
-      
-      setBatches(batchSessions);
-    }
+    const loadBatches = () => {
+      const saved = localStorage.getItem('malware_history');
+      if (saved) {
+        const parsed: HistoryItem[] = JSON.parse(saved);
+        
+        const grouped = new Map<string, HistoryItem[]>();
+        parsed.forEach((item: HistoryItem) => {
+          const date = new Date(item.timestamp).toDateString();
+          if (!grouped.has(date)) grouped.set(date, []);
+          grouped.get(date)!.push(item);
+        });
+        
+        const batchSessions: BatchSession[] = Array.from(grouped.entries()).map(([date, files], index) => ({
+          id: `batch-${index}`,
+          date: new Date(date),
+          files,
+          name: `Batch Analysis - ${date}`
+        }));
+        
+        setBatches(batchSessions);
+      }
+    };
+    
+    loadBatches();
   }, []);
 
   const exportBatch = (batch: BatchSession) => {
@@ -93,10 +95,16 @@ export default function BatchReportsPage() {
   };
 
   return (
-    <div className="min-h-screen">
-      <div className="mx-auto max-w-5xl px-4 py-8">
+    <div className="min-h-screen bg-linear-to-b from-background to-muted/20">
+      <div className="container mx-auto max-w-6xl px-4 py-8">
+        {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold tracking-tight mb-2">Batch Reports</h1>
+          <div className="flex items-center gap-3 mb-2">
+            <div className="rounded-lg bg-primary/10 p-2">
+              <Layers className="h-6 w-6 text-primary" />
+            </div>
+            <h1 className="text-4xl font-bold tracking-tight">Batch Reports</h1>
+          </div>
           <p className="text-muted-foreground">
             View and manage your batch analysis sessions
           </p>
@@ -121,7 +129,7 @@ export default function BatchReportsPage() {
               const stats = getBatchStats(batch);
               return (
                 <Card key={batch.id} className="overflow-hidden hover:shadow-lg transition-shadow">
-                  <CardHeader>
+                  <CardHeader className="bg-muted/30">
                     <div className="flex items-center justify-between flex-wrap gap-4">
                       <div className="space-y-1">
                         <CardTitle className="flex items-center gap-2">
@@ -140,16 +148,19 @@ export default function BatchReportsPage() {
                       <div className="flex gap-2">
                         <Button variant="outline" size="sm" onClick={() => exportBatch(batch)}>
                           <Download className="h-4 w-4" />
+                          <span className="sr-only">Export</span>
                         </Button>
                         <Button variant="outline" size="sm" asChild>
                           <Link href={`/batch-reports/${batch.id}`}>
                             <Eye className="h-4 w-4" />
+                            <span className="sr-only">View Details</span>
                           </Link>
                         </Button>
                       </div>
                     </div>
                   </CardHeader>
                   <CardContent className="pt-6">
+                    {/* Stats Grid */}
                     <div className="grid gap-4 md:grid-cols-4 mb-6">
                       <div className="text-center p-3 rounded-lg bg-muted/50">
                         <p className="text-2xl font-bold">{stats.total}</p>
@@ -169,6 +180,7 @@ export default function BatchReportsPage() {
                       </div>
                     </div>
 
+                    {/* Files List */}
                     <div className="space-y-2">
                       <p className="text-sm font-medium">Files in this batch</p>
                       <ScrollArea className="h-48">
@@ -183,7 +195,7 @@ export default function BatchReportsPage() {
                                 )}
                                 <span className="text-sm truncate">{file.filename}</span>
                               </div>
-                              <div className="flex items-center gap-3">
+                              <div className="flex items-center gap-3 shrink-0">
                                 <Badge variant={file.verdict === 'MALICIOUS' ? "destructive" : "default"}>
                                   {file.verdict}
                                 </Badge>

@@ -1,10 +1,8 @@
-// src/app/components/MultiFileUploader.tsx (Updated - matching single upload badge style)
 'use client';
 
 import { useCallback } from 'react';
-import { useDropzone } from 'react-dropzone';
-import { Upload, HardDrive, AlertCircle, FileText } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { useDropzone, FileRejection } from 'react-dropzone';
+import { Upload, HardDrive, AlertCircle } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { cn } from '@/lib/utils';
 
@@ -23,7 +21,7 @@ export function MultiFileUploader({
 }: MultiFileUploaderProps) {
   
   const onDrop = useCallback(
-    (acceptedFiles: File[], fileRejections: any[]) => {
+    (acceptedFiles: File[], fileRejections: FileRejection[]) => {
       if (acceptedFiles.length > 0) {
         const filesToAdd = acceptedFiles.slice(0, maxFiles);
         onFilesAdded(filesToAdd);
@@ -86,7 +84,6 @@ export function MultiFileUploader({
             </p>
           </div>
           
-          {/* Badge - matching single upload style but with multi-file info */}
           <div className="mt-1 flex items-center gap-1.5 rounded-full border border-border bg-muted/60 px-3 py-1 text-xs text-muted-foreground">
             <HardDrive className="h-3 w-3" />
             Windows executable (.exe) · Max {maxFiles} files · Up to {maxSize / (1024 * 1024)}MB each

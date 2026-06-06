@@ -17,3 +17,9 @@ export interface ApiResult<T> {
   error?: string;
   status: number;
 }
+
+
+export interface ErrorResponse {
+  detail?: string;
+  message?: string;
+}

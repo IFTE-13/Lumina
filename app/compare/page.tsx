@@ -17,13 +17,23 @@ import { predictMalware } from '@/lib/api-client';
 import { toast } from 'sonner';
 import { formatFileSize } from '@/lib/utils';
 import { FileUploader } from '../_components/fileUploader';
+import type { PredictionResult } from '@/app/types';
 
 interface ComparisonFile {
   id: string;
   file: File;
-  result?: any;
+  result?: PredictionResult;
   status: 'pending' | 'analyzing' | 'completed' | 'failed';
   error?: string;
+}
+
+interface ExportData {
+  filename: string;
+  size: number;
+  verdict: 'BENIGN' | 'MALICIOUS';
+  confidence: number;
+  probability_benign: number;
+  probability_malicious: number;
 }
 
 export default function ComparePage() {
@@ -66,7 +76,7 @@ export default function ComparePage() {
             f.id === compareFile.id ? { ...f, status: 'failed', error: res.error } : f
           ));
         }
-      } catch (error) {
+      } catch {
         setFiles(prev => prev.map(f => 
           f.id === compareFile.id ? { ...f, status: 'failed', error: 'Analysis failed' } : f
         ));
@@ -84,13 +94,13 @@ export default function ComparePage() {
 
   const exportComparison = () => {
     const completed = files.filter(f => f.status === 'completed' && f.result);
-    const data = completed.map(f => ({
+    const data: ExportData[] = completed.map(f => ({
       filename: f.file.name,
       size: f.file.size,
-      verdict: f.result.verdict,
-      confidence: f.result.confidence,
-      probability_benign: f.result.probability_benign,
-      probability_malicious: f.result.probability_malicious
+      verdict: f.result!.verdict,
+      confidence: f.result!.confidence,
+      probability_benign: f.result!.probability_benign,
+      probability_malicious: f.result!.probability_malicious
     }));
     
     const csv = [
@@ -116,14 +126,15 @@ export default function ComparePage() {
     toast.success('Comparison exported');
   };
 
-  const completedFiles = files.filter(f => f.status === 'completed');
+  const completedFiles = files.filter(f => f.status === 'completed' && f.result);
   const hasResults = completedFiles.length >= 2;
 
   return (
     <div className="min-h-screen bg-linear-to-b from-background to-muted/20">
       <div className="container mx-auto max-w-7xl px-4 py-8">
+        {/* Header */}
         <div className="mb-8">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <h1 className="text-4xl font-bold tracking-tight mb-2">Compare Files</h1>
               <p className="text-muted-foreground">
@@ -146,9 +157,10 @@ export default function ComparePage() {
             </div>
           </div>
         </div>
+
         {files.length < 5 && (
           <Card className="mb-8">
-            <CardContent>
+            <CardContent className="pt-6">
               <FileUploader
                 onFileSelect={addFile}
                 selectedFile={null}
@@ -159,7 +171,6 @@ export default function ComparePage() {
           </Card>
         )}
 
-        {/* Files Grid */}
         {files.length > 0 && (
           <>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 mb-6">
@@ -205,14 +216,12 @@ export default function ComparePage() {
               ))}
             </div>
 
-            {/* Analyze Button */}
             {files.some(f => f.status === 'pending') && (
               <Button onClick={analyzeAll} disabled={isAnalyzing} className="w-full mb-8" size="lg">
                 {isAnalyzing ? 'Analyzing...' : `Analyze ${files.filter(f => f.status === 'pending').length} File(s)`}
               </Button>
             )}
 
-            {/* Comparison Table */}
             {hasResults && (
               <Card>
                 <CardHeader>
@@ -245,30 +254,26 @@ export default function ComparePage() {
                             </td>
                             <td className="p-3 text-sm">{formatFileSize(file.file.size)}</td>
                             <td className="p-3">
-                              <Badge variant={file.result.verdict === 'MALICIOUS' ? "destructive" : "default"}>
-                                {file.result.verdict}
+                              <Badge variant={file.result!.verdict === 'MALICIOUS' ? "destructive" : "default"}>
+                                {file.result!.verdict}
                               </Badge>
                             </td>
                             <td className="p-3">
                               <div className="flex items-center gap-2">
-                                <span className="text-sm font-mono">{file.result.confidence}%</span>
-                                <Progress value={file.result.confidence} className="w-16 h-1" />
+                                <span className="text-sm font-mono">{file.result!.confidence}%</span>
+                                <Progress value={file.result!.confidence} className="w-16 h-1" />
                               </div>
-                            </td>
+                             </td>
                             <td className="p-3">
-                              <div className="flex items-center gap-2">
-                                <span className="text-sm text-emerald-500">
-                                  {(file.result.probability_benign * 100).toFixed(1)}%
-                                </span>
-                              </div>
-                            </td>
+                              <span className="text-sm text-emerald-500">
+                                {(file.result!.probability_benign * 100).toFixed(1)}%
+                              </span>
+                             </td>
                             <td className="p-3">
-                              <div className="flex items-center gap-2">
-                                <span className="text-sm text-red-500">
-                                  {(file.result.probability_malicious * 100).toFixed(1)}%
-                                </span>
-                              </div>
-                            </td>
+                              <span className="text-sm text-red-500">
+                                {(file.result!.probability_malicious * 100).toFixed(1)}%
+                              </span>
+                             </td>
                           </tr>
                         ))}
                       </tbody>

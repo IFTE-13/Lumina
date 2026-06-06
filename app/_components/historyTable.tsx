@@ -1,4 +1,3 @@
-// src/app/components/historyTable.tsx (updated)
 'use client';
 
 import { History, Shield, ShieldAlert, Trash2 } from 'lucide-react';

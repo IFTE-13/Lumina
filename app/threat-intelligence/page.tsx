@@ -8,7 +8,6 @@ import {
   TrendingUp, 
   AlertTriangle, 
   Shield, 
-  Globe,
   Activity,
   Zap,
   Download,
@@ -29,15 +28,19 @@ interface ThreatStat {
 export default function ThreatIntelligencePage() {
   const [history, setHistory] = useState<HistoryItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [timeRange, setTimeRange] = useState<'week' | 'month' >('week');
+  const [timeRange] = useState<'week' | 'month'>('week')
 
   useEffect(() => {
+  const loadHistory = () => {
     const saved = localStorage.getItem('malware_history');
     if (saved) {
       setHistory(JSON.parse(saved));
-    }
-    setIsLoading(false);
-  }, []);
+      }
+      setIsLoading(false);
+    };
+    
+    loadHistory();
+  }, [])
 
   const getFilteredHistory = () => {
     const now = new Date();
@@ -104,7 +107,6 @@ export default function ThreatIntelligencePage() {
           </div>
         </div>
 
-        {/* Stats Overview */}
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4 mb-8">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
@@ -151,7 +153,7 @@ export default function ThreatIntelligencePage() {
               <Zap className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <Badge variant={maliciousFiles.length > 10 ? "destructive" : "secondary"} className="text-sm">
+              <Badge variant={maliciousFiles.length > 10 ? "destructive" : maliciousFiles.length > 5 ? "default" : "secondary"} className="text-sm">
                 {maliciousFiles.length > 10 ? "HIGH" : maliciousFiles.length > 5 ? "MEDIUM" : "LOW"}
               </Badge>
               <p className="text-xs text-muted-foreground mt-2">Current threat level</p>
@@ -159,7 +161,6 @@ export default function ThreatIntelligencePage() {
           </Card>
         </div>
 
-        {/* Threat Distribution and Timeline */}
         <div className="grid gap-6 lg:grid-cols-2 mb-8">
           <Card>
             <CardHeader>
@@ -210,7 +211,6 @@ export default function ThreatIntelligencePage() {
           </Card>
         </div>
 
-        {/* Recent Threats List */}
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center justify-between">

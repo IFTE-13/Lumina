@@ -88,7 +88,7 @@ export default function BatchHelpPage() {
               <div>
                 <p className="font-medium">Switch to Batch Mode</p>
                 <p className="text-sm text-muted-foreground">
-                  Click the "Batch Analysis" tab at the top of the Threat Detector page.
+                  Click the &quot;Batch Analysis&quot; tab at the top of the Threat Detector page.
                 </p>
               </div>
             </div>
@@ -110,7 +110,7 @@ export default function BatchHelpPage() {
               <div>
                 <p className="font-medium">Start Analysis</p>
                 <p className="text-sm text-muted-foreground">
-                  Click "Analyze All" to begin processing. Watch real-time progress for each file.
+                  Click &quot;Analyze All&quot; to begin processing. Watch real-time progress for each file.
                 </p>
               </div>
             </div>
